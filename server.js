@@ -15,6 +15,9 @@ app.use(express.json());
 // // Set EJS as the view engine
 app.set("view engine", "ejs");
 app.set("views", join(__dirname, "views"));
+app.get("/", (req, res) => {
+  res.render("index", { message: "Hello, World!" });
+});
 // app.use(express.static(__dirname));
 
 // Rutas
