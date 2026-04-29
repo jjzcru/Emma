@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 3000;
 
 initializeDatabase()
   .then(() => {
+    console.log(result);
     app.listen(PORT, () => {
       console.log(
         `Servidor de Control de Medicamentos corriendo en el puerto ${PORT}`,

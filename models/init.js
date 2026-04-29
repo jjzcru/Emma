@@ -1,16 +1,20 @@
 import { sequelize } from "./db.js";
+import "./models.js";
 
 export const initializeDatabase = async () => {
   try {
-    // Connect and verify
     await sequelize.authenticate();
-    console.log("Connection has been established successfully.");
+    await sequelize.query("PRAGMA foreign_keys = ON;");
+    console.log("✅ Connection established.");
 
-    // sync() looks at all models registered via sequelize.define
-    // { alter: true } will create the tables if they don't exist
-    await sequelize.sync({ alter: true });
+    // Sync models
+    await sequelize.sync();
+    console.log("✅ Database synced.");
 
-    console.log("All tables have been created in the SQLite file.");
+    // Optional: Double check Foreign Keys are actually ON
+    const result = await sequelize.query("PRAGMA foreign_keys;");
+    const status = result[0]?.foreign_keys === 1 ? "ON" : "OFF";
+    console.log("Foreign Key Status:", status);
   } catch (error) {
     console.error("Error initializing database:", error);
   }
